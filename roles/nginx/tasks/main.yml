@@ -1,0 +1,93 @@
+
+---
+# Verifica la existencia del repo de NGINX
+- name: Verifica si esta el repositorio nginx-release
+  shell: rpm -qa | grep nginx-release
+  register: result
+  ignore_errors: True
+  always_run: yes
+  changed_when: no
+
+# Agrega el repo de NGINX para CentOS 6/7
+- name: Agrega el repositorio nginx-release (CentOS6/CentOS7)
+  yum: name="http://nginx.org/packages/centos/{{ansible_distribution_major_version}}/noarch/RPMS/nginx-release-centos-{{ansible_distribution_major_version}}-0.el{{ansible_distribution_major_version}}.ngx.noarch.rpm"
+  when: result|failed
+
+# Instala el paquete de Net-Tool para utilizarlo mas adelante.
+- name: "Instala el Paquete Net-Tools"
+  yum: 
+    pkg: net-tools 
+    state: present
+
+# Deshabilita el repo del NGINX
+- name: Deshabilita el Repo de NGINX
+  replace: dest=/etc/yum.repos.d/nginx.repo regexp="enabled *= *1" replace="enabled=0"
+  ignore_errors: True
+
+# Instala NGINX
+- name: Instala NGINX
+  yum: name=nginx state=present enablerepo=nginx
+
+# Incia el servicios de NGINX
+- name: Inicia el Servicio de NGINX
+  service: name=nginx enabled=yes state=started
+
+# Crea el directorio donde se copiaran las keys SSL utilizadas por NGINX
+- name: Crea el directorio para los keys SSL
+  file:
+    path: '/etc/nginx/ssl'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
+# Crea los directorios necesarios para los Sitios habilitados
+- name: Crea los directorios por default de NGINX
+  file:
+    path: '/etc/nginx/sites-available'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
+# Copia de un template default de los sites habilitados del NGINX
+- name: Copia la configuracion del LoadBalancer
+  template:
+    src: 'nginx.j2'
+    dest: '/etc/nginx/sites-available/default'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
+# Copia de un template el .conf del NGINX
+- name: Copia la configuracion de NGINX
+  template:
+    src: 'nginx.conf.j2'
+    dest: '/etc/nginx/nginx.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
+# Copia de un template el .crt al LoadBalancer
+- name: Copia el archivo nginx .crt
+  template:
+    src: 'nginx.crt.j2'
+    dest: '/etc/nginx/ssl/nginx.crt'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
+# Copia de un template el .key al LoadBalancer
+- name: Copia el archivo nginx .key 
+  template:
+    src: 'nginx.key.j2'
+    dest: '/etc/nginx/ssl/nginx.key'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify:
+    - Restart nginx
+
+#Otorga privilegios de con sudors al user de vagrant
+- name: Cambia los privilegios del usuario vagrant
+  lineinfile: "dest=/etc/sudoers line='vagrant ALL=(ALL) NOPASSWD: ALL'"

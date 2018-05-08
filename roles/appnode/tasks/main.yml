@@ -1,0 +1,25 @@
+---
+#Instala la version 1.8.0 del OpenJDK de Java
+- name: "Instalar paquete java-1.8.0-openjdk"
+  yum: 
+    pkg: java-1.8.0-openjdk 
+    state: present
+
+# Copia el .jar de la SpringBoot al equipo.
+- name: "Copiar Spring Boot App"
+  become: yes
+  copy:
+    remote_src: yes
+    directory_mode: yes
+    force: no
+    src: spring-boot-sample-hateoas-2.1.0.BUILD-SNAPSHOT.jar
+    dest: /root/
+
+# Crea el springboot.service para iniciar la app con Systemd
+- name: "Instalar el servicio springboot.service"
+  template: src=app_daemon.j2 dest=/etc/systemd/system/springboot.service owner=root group=root mode=0644 backup=yes
+
+# Reload del Daemon de Systemd para cargar el .service de la Springboot y se inicia la App
+- name: "Recargar el Daemon Systemctl - springboot."
+  command: systemctl daemon-reload
+  notify: Restart springboot

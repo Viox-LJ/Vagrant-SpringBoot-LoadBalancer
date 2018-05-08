@@ -1,0 +1,9 @@
+---
+# Ejecuta el Deploy de los Nodos de Aplicacion
+- name: App daemon deploy
+  hosts: localhost
+  gather_facts: no
+  su: yes
+  su_user: root
+  roles:
+    - role: appnode

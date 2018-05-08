@@ -1,0 +1,4 @@
+---
+# Reinicia el servicio creado de NGINX
+- name: Restart nginx
+  service: name=nginx state=restarted

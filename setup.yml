@@ -1,0 +1,6 @@
+---
+# Ejecuta la Instalacion del LoadBalancer sobre el role nginx
+- name: Setup nginx on load balancer
+  hosts: localhost
+  roles:
+    - role: nginx 

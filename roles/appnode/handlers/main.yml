@@ -1,0 +1,4 @@
+---
+# Reinicia el servicio creado de SpringBoot
+- name: Restart springboot
+  service: name=springboot state=restarted
