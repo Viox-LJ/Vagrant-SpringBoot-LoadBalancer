@@ -3,7 +3,7 @@
 En este caso, tenemos la creacion de 3 Nodos con Vagrant sobre CentOS7.
 En dos de sus nodos instalaremos una SpringBoot, la cual tiene parameteizado por un .yml de Ansible la creación de su .service para manejar el servicio con Systemd.
 
-Los nodos tendran los siguientes nombres e IPs:
+# Los nodos tendran los siguientes nombres e IPs:
 
 AppServer1 - IP: 192.168.42.11
 AppServer2 - IP: 192.168.42.12
@@ -21,17 +21,13 @@ Una vez terminado el deploy pueden validar accediendo a:
 http://192.168.42.10/customers
 https://192.168.42.10/customers
 
-Para validar el Balanceo, pueden conectarse al Balancer y verificar los logs, para esto deben hacer un:
+# Para validar el Balanceo, pueden conectarse al Balancer y verificar los logs, para esto deben hacer un:
 
-#vagrant global-status
+#vagrant global-status 
 
-id       name         provider   state   directory
+e3dde86 load_balancer virtualbox running
 
-6c01fde  AppServer1   virtualbox running /Users/viox/Desktop/nginx-lb-cluster-vagrant
-c4f0aaa  AppServer2   virtualbox running /Users/viox/Desktop/nginx-lb-cluster-vagrant
-e3dde86  load_balancer virtualbox running /Users/viox/Desktop/nginx-lb-cluster-vagrant
-
-Conectarse al Balancer:
+# Conectarse al Balancer:
 
 #vagrant ssh load_balancer
 
