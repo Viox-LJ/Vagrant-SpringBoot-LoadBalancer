@@ -5,12 +5,14 @@ En dos de sus nodos instalaremos una SpringBoot, la cual tiene parameteizado por
 
 # Los nodos tendran los siguientes nombres e IPs:
 
-AppServer1 - IP: 192.168.42.11
+AppServer1 - IP: 192.168.42.11 
+
 AppServer2 - IP: 192.168.42.12
 
 Como mencione antes, en estos host correra una SpringBoot en el port 9000. Una vez deployado con Vagrant y Ansible podran validar accediendo a cada una de la siguiente manera:
 
 http://192.168.42.11/customers
+
 http://192.168.42.12/customers
 
 Por ultimo el Vagrant/Ansible crearan un LoadBalancer en NGINX con SSL.
@@ -19,6 +21,7 @@ Para esto, esta parametrizado el Ansible con todas las cosas necesarias para ins
 Una vez terminado el deploy pueden validar accediendo a:
 
 http://192.168.42.10/customers
+
 https://192.168.42.10/customers
 
 # Para validar el Balanceo, pueden conectarse al Balancer y verificar los logs, para esto deben hacer un:
