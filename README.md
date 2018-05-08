@@ -3,6 +3,10 @@
 En este caso, tenemos la creacion de 3 Nodos con Vagrant sobre CentOS7.
 En dos de sus nodos instalaremos una SpringBoot, la cual tiene parameteizado por un .yml de Ansible la creación de su .service para manejar el servicio con Systemd.
 
+Para iniciar el proceso solo deben ejecutar # vagrant up
+
+!!!Previamente deben tener instalado Vagrant
+
 # Los nodos tendran los siguientes nombres e IPs:
 
 AppServer1 - IP: 192.168.42.11 
