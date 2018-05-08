@@ -26,7 +26,7 @@ Para validar el Balanceo, pueden conectarse al Balancer y verificar los logs, pa
 #vagrant global-status
 
 id       name         provider   state   directory
---------------------------------------------------------------------------------------
+
 6c01fde  AppServer1   virtualbox running /Users/viox/Desktop/nginx-lb-cluster-vagrant
 c4f0aaa  AppServer2   virtualbox running /Users/viox/Desktop/nginx-lb-cluster-vagrant
 e3dde86  load_balancer virtualbox running /Users/viox/Desktop/nginx-lb-cluster-vagrant
